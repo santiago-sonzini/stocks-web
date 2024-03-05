@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { embeddedLanguageFormatting } from "prettier.config.cjs";
 import { useState } from "react";
+import { env } from "~/env.mjs";
 import { baseUrl } from "~/utils/constants";
 
 export interface StockPrediction {
@@ -92,7 +93,7 @@ export async function getServerSideProps() {
   'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG"]
   // Fetch data from an external API
   const predictions = [];
-
+  console.log( env.NODE_ENV);
   for (let i = 0; i < stocks.length; i++) {
     const item = stocks[i];
     try {
@@ -100,7 +101,6 @@ export async function getServerSideProps() {
       const data = await res.json();
       predictions.push(data);
     } catch (error) {
-      console.log(error);
     }
   }
   predictions.sort((a, b) => b.pct_change - a.pct_change);

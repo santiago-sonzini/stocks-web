@@ -7,4 +7,4 @@ const production = {
   const development = {
     url: 'http://127.0.0.1:8000'
   };
-  export const baseUrl = env.NODE_ENV === 'development' ? development.url : production.url;
+  export const baseUrl = env.NEXT_PUBLIC_ENV === 'development' ? development.url : production.url;
