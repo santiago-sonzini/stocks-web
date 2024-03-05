@@ -79,6 +79,7 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
               <span className={`"  ${loading ? " text-red-500": " text-green-500"} "`} >{loading ? "Loading 😁" : " See All 🤓"}</span>
             </h1>
           </button>
+          
         </div>
       </main>
     </>
