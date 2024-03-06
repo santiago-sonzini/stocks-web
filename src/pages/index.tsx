@@ -89,22 +89,25 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
 
 
 export async function getServerSideProps() {
-  const stocks = ['NFLX',  'TSLA',  'MELI', 'GLOB', 'KO',
-  'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG"]
+  const stocks = ['NFLX', 'TSLA', 'MELI', 'GLOB', 'KO',
+    'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG"];
+  console.log(baseUrl);
+  
   // Fetch data from an external API
-  const predictions = [];
-  console.log( env.NODE_ENV);
-  for (let i = 0; i < stocks.length; i++) {
-    const item = stocks[i];
+  const promises = stocks.map(async (item) => {
     try {
       const res = await fetch(`${baseUrl}/prediction/${item}`);
-      const data = await res.json();
-      predictions.push(data);
+      return res.json();
     } catch (error) {
+      console.log(error);
+      return null;
     }
-  }
+  });
+
+  const predictions = await Promise.all(promises);
+
   predictions.sort((a, b) => b.pct_change - a.pct_change);
-  console.log(predictions);
+  //console.log(predictions);
 
   return {
     props: { predictions },
