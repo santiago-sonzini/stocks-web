@@ -1,20 +1,22 @@
+import { StockPrediction } from "~/pages";
 import { baseUrl } from "./constants";
 
-export default async function getPredictions() {
-    const stocks = ['NFLX',  'TSLA',  'MELI', 'GLOB', 'KO',
-  'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG"]
+export default async function getPredictions(stocks: string[]) {
+
   // Fetch data from an external API
-  const predictions = [];
   console.log( baseUrl);
-  for (let i = 0; i < stocks.length; i++) {
-    const item = stocks[i];
+  const promises = stocks.flatMap(async (item) => {
     try {
       const res = await fetch(`${baseUrl}/prediction/${item}`);
-      const data = await res.json();
-      predictions.push(data);
+      return res.json();
     } catch (error) {
+      console.log(error);
+      return null;
     }
-  }
-  predictions.sort((a, b) => b.pct_change - a.pct_change);
+  });
+
+  const predictions = await Promise.all(promises);
+
+  predictions.sort((a: any, b: any) => b.pct_change - a.pct_change);
   return predictions
 }

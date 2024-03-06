@@ -89,18 +89,17 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
 
 
 export async function getServerSideProps() {
-  const stocks = ['NFLX', 'TSLA', 'MELI', 'GLOB', 'KO',
-    'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG"];
+  const stocks = [ 'MELI',"GOOG"];
   console.log(baseUrl);
   
   // Fetch data from an external API
-  const promises = stocks.map(async (item) => {
+  const promises = stocks.flatMap(async (item) => {
     try {
       const res = await fetch(`${baseUrl}/prediction/${item}`);
       return res.json();
     } catch (error) {
       console.log(error);
-      return null;
+      return [];
     }
   });
 
