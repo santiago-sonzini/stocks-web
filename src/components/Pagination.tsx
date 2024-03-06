@@ -27,7 +27,7 @@ function Items({ currentItems }: any) {
             <h3 className="text-lg mb-2 font-bold">Today's price: ${item.last_day.toFixed(2)}</h3>
             <h3 className="text-lg mb-2 font-bold">Predicted pct_change: {item.pct_change.toFixed(2)}</h3>
 
-            <h3 className="text-2xl font-bold">${item.predictions.toFixed(2)}
+            <h3 className="text-2xl font-bold">${item.prediction.toFixed(2)}
               {
                 item.stock === "ALUA.BA" ? " ARS" : null
               }

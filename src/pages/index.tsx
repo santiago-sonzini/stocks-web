@@ -10,7 +10,7 @@ import getPredictions from "~/utils/predictions";
 
 export interface StockPrediction {
   stock: string;
-  predictions: number;
+  prediction: number;
   last_day: number;
   pct_change: number;
 }
@@ -25,14 +25,13 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
     // Define an asynchronous function inside useEffect
     
     const fetchData = async () => {
-      const more = [
-        'KO', 'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG" ,'NFLX', 'TSLA', 'MELI', 'GLOB', ]
+     
       // Call your asynchronous function
-      const result = await getPredictions(more);
+      const result = await getPredictions();
       // Update state with the returned value
       const updated = [ ...result]
       updated.sort((a, b) => b.pct_change - a.pct_change);
-      console.log(updated);
+      console.log(updated.slice(0,12));
 
       setPredictions(updated);
     };
@@ -82,7 +81,7 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
                     <h3 className="text-lg mb-2 font-bold">Today's price: ${item.last_day.toFixed(2)}</h3>
                     <h3 className="text-lg mb-2 font-bold">Predicted pct_change: {item.pct_change.toFixed(2)}</h3>
     
-                    <h3 className="text-2xl font-bold">${item.predictions.toFixed(2)}
+                    <h3 className="text-2xl font-bold">${item.prediction.toFixed(2)}
                       {
                         item.stock === "ALUA.BA" ? " ARS" : null
                       }

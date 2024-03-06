@@ -8,12 +8,6 @@ import PaginatedItems from "~/components/Pagination";
 import { baseUrl } from "~/utils/constants";
 import getPredictions from "~/utils/predictions";
 
-interface StockPrediction {
-  stock: string;
-  predictions: number;
-  last_day: number;
-  pct_change: number;
-}
 
 
 const Home = () => {
@@ -25,14 +19,14 @@ const Home = () => {
     // Define an asynchronous function inside useEffect
     
     const fetchData = async () => {
-      const more = [
-        'KO', 'YPF', 'MSFT', 'TS', 'SBUX', 'MCD', "AMZN", "GOOG" ,'NFLX', 'TSLA', 'MELI', 'GLOB', ]
-      // Call your asynchronous function
-      const result = await getPredictions(more);
+    
+      const result = await getPredictions();
       // Update state with the returned value
+      console.log(result);
+      
       const updated = [ ...result]
       updated.sort((a, b) => b.pct_change - a.pct_change);
-      console.log(updated);
+      console.log(updated.slice(12));
 
       setPredictions(updated);
     };
