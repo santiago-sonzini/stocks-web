@@ -22,13 +22,13 @@ const Home = () => {
     
       const result = await getPredictions();
       // Update state with the returned value
-      console.log(result);
-      
-      const updated = [ ...result]
-      updated.sort((a, b) => b.pct_change - a.pct_change);
-      console.log(updated.slice(12));
+      if (result) {
+        const updated = [...result]
+        updated.sort((a, b) => b.pct_change - a.pct_change);
+        console.log(updated.slice(0, 12));
 
-      setPredictions(updated);
+        setPredictions(updated);
+      }
     };
 
     // Call the fetchData function
