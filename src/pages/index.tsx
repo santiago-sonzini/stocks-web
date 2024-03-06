@@ -66,7 +66,7 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
           </h1>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8 ">
 
-            {predictions ? predictions.slice(0,2).map((item: StockPrediction) => {
+            {predictionsState ? predictionsState.slice(0,2).map((item: StockPrediction) => {
               if (item.last_day) {
                 return (
                   <Link
