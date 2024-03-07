@@ -6,6 +6,7 @@ import { embeddedLanguageFormatting } from "prettier.config.cjs";
 import { useEffect, useState } from "react";
 import { env } from "~/env.mjs";
 import { baseUrl } from "~/utils/constants";
+import predictions from "~/utils/predictions";
 import getPredictions from "~/utils/predictions";
 
 export interface StockPrediction {
@@ -16,7 +17,7 @@ export interface StockPrediction {
 }
 
 
-const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
+const Home = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [predictionsState, setPredictions] = useState<any>([]);
@@ -27,7 +28,7 @@ const Home = ({ predictions }: { predictions: [StockPrediction] }) => {
     const fetchData = async () => {
 
       // Call your asynchronous function
-      const result = await getPredictions();
+      const result = await predictions.getPredictions();
       // Update state with the returned value
 
       if (result) {

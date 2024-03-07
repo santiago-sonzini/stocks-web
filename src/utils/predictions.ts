@@ -1,7 +1,7 @@
 import { StockPrediction } from "~/pages";
 import { baseUrl } from "./constants";
 
-export default async function getPredictions() {
+ async function getPredictions() {
 
   // Fetch data from an external API
   console.log( baseUrl);
@@ -21,6 +21,32 @@ export default async function getPredictions() {
 
 
 }
+ async function postPredictions(setPredictions: any) {
+  const companies = ['NFLX', 'GOOG', 'AMZN', 'TSLA', 'ALUA.BA', 'MELI', 'GLOB', 'KO', 'YPF', 'MSFT', 'TS', 'SBUX', 'MCD'];
+  const predictions = [];
+
+  for (const company of companies) {
+    try {
+      const res = await fetch(`${baseUrl}/prediction/${company}`);
+      const prediction = await res.json();
+      predictions.push(prediction);
+      setPredictions(predictions); // Update state array after each prediction
+    } catch (error) {
+      console.log(`Error fetching prediction for ${company}: ${error}`);
+    }
+  }
+  console.log("job done");
+  
+  
+  // Sort predictions by pct_change
+  predictions.sort((a, b) => b.pct_change - a.pct_change);
+
+  // Remove duplicates based on 'Stock' attribute
+  const filteredData = removeDuplicates(predictions, 'Stock');
+
+  return filteredData;
+}
+
 function removeDuplicates(data: StockPrediction[], prop: string): StockPrediction[] {
   const map = new Map();
   data.forEach((item: StockPrediction) => {
@@ -30,3 +56,5 @@ function removeDuplicates(data: StockPrediction[], prop: string): StockPredictio
   });
   return Array.from(map.values());
 }
+
+export default {getPredictions, postPredictions}
