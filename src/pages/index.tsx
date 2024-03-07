@@ -27,15 +27,21 @@ const Home = () => {
 
     const fetchData = async () => {
 
-      // Call your asynchronous function
+
       const result = await predictions.getPredictions();
       // Update state with the returned value
-
       if (result) {
-        const updated = [...result]
+        let updated = [...result]
         updated.sort((a, b) => b.pct_change - a.pct_change);
         console.log(updated.slice(0, 12));
-
+        updated = updated.flatMap((item)=>{
+          if (item.stock === "ALUA.BA") {
+            return []
+          }else{
+            return item
+          }
+          
+        })
         setPredictions(updated);
       }
 
